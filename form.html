@@ -11,13 +11,13 @@
 	</head>
 	<body data-ng-controller="formController">
 	
-		<h3>Dynamic Form Generator</h3>
+		<h3>Dynamic Radio Generator</h3>
 		
 		
 			<button type="button" data-ng-click="getForm()">Get Form</button>
 		
 		
-			<form name="myForm" class="form-horizontal" role="form"	data-ng-submit="return onSubmit(this)">
+			<form name="myForm" class="form-horizontal" role="form"	data-ng-submit="submitForm()">
 				<div data-ng-repeat="formData in formDatas.form_fields">
 					<data-ng-form name="formData.form_name" id="formData.form_id">
 					
