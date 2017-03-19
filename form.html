@@ -17,7 +17,7 @@
 			<button type="button" data-ng-click="getForm()">Get Form</button>
 		
 		
-			<form name="myForm" class="form-horizontal" role="form"	data-ng-submit="submitForm()">
+			<form name="myForm" class="form-horizontal" role="form"	data-ng-submit="return onSubmit(this)">
 				<div data-ng-repeat="formData in formDatas.form_fields">
 					<data-ng-form name="formData.form_name" id="formData.form_id">
 					
@@ -25,7 +25,7 @@
 					<div data-ng-if="formData.component=='textinput'" class="form-group">
 						<label class="col-sm-2 control-label">{{formData.label}}</label>
 						<div class="col-sm-6" data-ng-init="inputText = formData.autofill">
-							<input class="form-control" type="{{formData.component}}"
+							<input class="form-control" type="{{formData.component}}" name="inputText"
 								data-ng-model="inputText"
 								data-ng-required="{{formData.required}}"
 								data-ng-readonly="{{!formData.editable}}" 
@@ -38,7 +38,7 @@
 					<div data-ng-if="formData.component=='textarea'" class="form-group">
 						<label class="col-sm-2 control-label">{{formData.label}}</label>
 						<div class="col-sm-6" data-ng-init="areaText = formData.autofill">
-							 <textarea rows="4" cols="50" class="form-control" 
+							 <textarea rows="4" cols="50" class="form-control" name="areaText"
 							 		data-ng-model="areaText" 
 							 		data-ng-required="{{formData.required}}" 
 							 		data-ng-readonly="{{!formData.editable}}" 
@@ -55,14 +55,14 @@
 							 		 <label class="col-sm-4">{{option}} : </label>
 										<span data-ng-if="formData.hasOwnProperty('autoselect')">
             								<span data-ng-if="formData.autoselect[0] === option">
-              									<input type="radio" data-ng-model="option" data-ng-value="option" name="option" data-ng-disabled="{{!formData.editable}}" checked>
+              									<input type="radio" data-ng-model="option" data-ng-value="option" name="radioOption" data-ng-disabled="{{!formData.editable}}" checked>
               								</span>
               								<span data-ng-if="formData.autoselect[0] !== option">
-              									<input type="radio" data-ng-model="option" data-ng-value="option" name="option" data-ng-disabled="{{!formData.editable}}">
+              									<input type="radio" data-ng-model="option" data-ng-value="option" name="radioOption" data-ng-disabled="{{!formData.editable}}">
               								</span>
               							</span>
             							<span data-ng-if="!formData.hasOwnProperty('autoselect')">
-              									<input name="option" type="radio" data-ng-model="option"  data-ng-click="clicked(option)" data-ng-value="option" data-ng-disabled="{{!formData.editable}}">
+              									<input name="radioOption" type="radio" data-ng-model="option"  data-ng-click="clicked(option)" data-ng-value="option" data-ng-disabled="{{!formData.editable}}">
               							</span>
             					</div>
 						</div>
@@ -78,14 +78,14 @@
 							 		 <label class="col-sm-4">{{option}} : </label>
 										<span data-ng-if="formData.hasOwnProperty('autoselect')" data-ng-repeat="autoselect in formData.autoselect">
             								<span  data-ng-if="(formData.options).indexOf('autoselect') !== -1">
-              									<input type="checkbox" data-ng-value="option" name="option" checked>
+              									<input type="checkbox" data-ng-value="option" name="checkOption" checked>
               								</span>
             								<span data-ng-if="(formData.options).indexOf('autoselect') === -1">
-            										<input name="option" type="checkbox" data-ng-value="option">
+            										<input name="checkOption" type="checkbox" data-ng-value="option">
               								</span>
             							</span>
             							<span data-ng-if="!formData.hasOwnProperty('autoselect')">
-            								<input type="checkbox" data-ng-value="option" name="option">
+            								<input type="checkbox" data-ng-value="option" name="checkOption">
             							</span>
 								</div>
 						</div>
@@ -95,7 +95,7 @@
 					 <div data-ng-if="formData.component=='select'" class="form-group">
 						<label class="col-sm-2 control-label">{{formData.label}}</label>
 						<div class="col-sm-6" data-ng-init="selectBox = formData.autoselect[0]">			
-								<select class="form-control"
+								<select class="form-control" name="selectItem"
 									data-ng-model="formData.autoselect[0]"
 									data-ng-required="{{formData.required}}" 
 							 		data-ng-disabled="{{!formData.editable}}"
@@ -116,13 +116,5 @@
 				<br />
 		
 			</form>
-			<!--  <button type="button" data-ng-click="getForm()">Get Form</button> 
-		 {{formDatas}}
-		 <div data-ng-repeat="formData in formDatas.form_fields">
-		 	<input type="{{formData.component}}" id="HTML"><label for="HTML"> {{formData.label}}</label>
-		 		<br><br>
-		 </div>
-		 			 		<textarea rows="" cols=""></textarea> -->
-		 			 		
 	</body>
 </html>
