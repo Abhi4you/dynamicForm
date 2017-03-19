@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html data-ng-app="form">
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Insert title here</title>
+		<link rel="stylesheet" href="StyleSheet/bootstrap.min.css"/>
+		<script type="text/javascript" src="script/buildScript/angular.min.1.5.7.js"></script>
+		<script type="text/javascript" src="script/buildScript/jquery.min.js"></script>
+		<script type="text/javascript" src="script/buildScript/bootstrap.min.js"></script>
+		<script type="text/javascript" src="script/form.js"></script>
+	</head>
+	<body data-ng-controller="formController">
+	
+		<h3>Dynamic Radio Buttons</h3>
+		
+		
+			<button type="button" data-ng-click="getForm()">Get Form</button>
+		
+		
+			<form name="myForm" class="form-horizontal" role="form"	data-ng-submit="submitForm()">
+				<div data-ng-repeat="formData in formDatas.form_fields">
+					<data-ng-form name="formData.form_name" id="formData.form_id">
+					
+					 <!-- TEXT FIELDS -->
+					<div data-ng-if="formData.component=='textinput'" class="form-group">
+						<label class="col-sm-2 control-label">{{formData.label}}</label>
+						<div class="col-sm-6" data-ng-init="inputText = formData.autofill">
+							<input class="form-control" type="{{formData.component}}"
+								data-ng-model="inputText"
+								data-ng-required="{{formData.required}}"
+								data-ng-readonly="{{!formData.editable}}" 
+								data-ng-pattern="formData.validation"  /> 
+						</div>
+						Input text : {{inputText}}
+					</div>
+
+					<!-- TEXTAREA FIELDS -->
+					<div data-ng-if="formData.component=='textarea'" class="form-group">
+						<label class="col-sm-2 control-label">{{formData.label}}</label>
+						<div class="col-sm-6" data-ng-init="areaText = formData.autofill">
+							 <textarea rows="4" cols="50" class="form-control" 
+							 		data-ng-model="areaText" 
+							 		data-ng-required="{{formData.required}}" 
+							 		data-ng-readonly="{{!formData.editable}}" 
+							 		data-ng-pattern="formData.validation"></textarea>  
+						</div>
+						Input text : {{areaText}}
+					</div>
+		
+					<!-- RADIO FIELDS -->
+					<div data-ng-if="formData.component=='radio'" class="form-group">
+						<label class="col-sm-2 control-label">{{formData.label}} : </label><br>
+						<div class="col-sm-8">
+								<div class="row" id="formData.label" data-ng-repeat="option in formData.options" data-ng-required="{{formData.required}}">
+							 		 <label class="col-sm-4">{{option}} : </label>
+										<span data-ng-if="formData.hasOwnProperty('autoselect')">
+            								<span data-ng-if="formData.autoselect[0] === option">
+              									<input type="radio" data-ng-model="option" data-ng-value="option" name="option" data-ng-disabled="{{!formData.editable}}" checked>
+              								</span>
+              								<span data-ng-if="formData.autoselect[0] !== option">
+              									<input type="radio" data-ng-model="option" data-ng-value="option" name="option" data-ng-disabled="{{!formData.editable}}">
+              								</span>
+              							</span>
+            							<span data-ng-if="!formData.hasOwnProperty('autoselect')">
+              									<input name="option" type="radio" data-ng-model="option"  data-ng-click="clicked(option)" data-ng-value="option" data-ng-disabled="{{!formData.editable}}">
+              							</span>
+            					</div>
+						</div>
+					</div>
+					
+					<!-- CHECKBOX FIELDS -->
+					<div data-ng-if="formData.component == 'checkbox'" class="form-group">
+						<label class="col-sm-2 control-label">{{formData.label}} : </label><br>
+						<div class="col-sm-8">
+								 <div class="row" data-ng-init="abc = formData.options" data-ng-repeat="option in formData.options"
+									 data-ng-disabled="{{!formData.editable}}"
+							 		 data-ng-required="{{formData.required}}"> 
+							 		 <label class="col-sm-4">{{option}} : </label>
+										<span data-ng-if="formData.hasOwnProperty('autoselect')" data-ng-repeat="autoselect in formData.autoselect">
+            								<span  data-ng-if="(formData.options).indexOf('autoselect') !== -1">
+              									<input type="checkbox" data-ng-value="option" name="option" checked>
+              								</span>
+            								<span data-ng-if="(formData.options).indexOf('autoselect') === -1">
+            										<input name="option" type="checkbox" data-ng-value="option">
+              								</span>
+            							</span>
+            							<span data-ng-if="!formData.hasOwnProperty('autoselect')">
+            								<input type="checkbox" data-ng-value="option" name="option">
+            							</span>
+								</div>
+						</div>
+					</div>
+					
+					<!-- SELECT FIELDS -->
+					 <div data-ng-if="formData.component=='select'" class="form-group">
+						<label class="col-sm-2 control-label">{{formData.label}}</label>
+						<div class="col-sm-6" data-ng-init="selectBox = formData.autoselect[0]">			
+								<select class="form-control"
+									data-ng-model="formData.autoselect[0]"
+									data-ng-required="{{formData.required}}" 
+							 		data-ng-disabled="{{!formData.editable}}"
+									data-ng-options="option for option in formData.options"
+									data-ng-required="{{formData.required}}"></select>
+						</div>
+						Select field : {{formData.autoselect[0]}}
+					</div> 
+		
+					</data-ng-form>
+				</div>
+		
+		
+				<br />
+					<button data-ng-disabled="myForm.$invalid" type="submit" id="submit">Submit</button>
+				<br />
+					<pre>{{entity|json}}</pre>
+				<br />
+		
+			</form>
+			<!--  <button type="button" data-ng-click="getForm()">Get Form</button> 
+		 {{formDatas}}
+		 <div data-ng-repeat="formData in formDatas.form_fields">
+		 	<input type="{{formData.component}}" id="HTML"><label for="HTML"> {{formData.label}}</label>
+		 		<br><br>
+		 </div>
+		 			 		<textarea rows="" cols=""></textarea> -->
+		 			 		
+	</body>
+</html>
