@@ -72,22 +72,10 @@
 					<div data-ng-if="formData.component == 'checkbox'" class="form-group">
 						<label class="col-sm-2 control-label">{{formData.label}} : </label><br>
 						<div class="col-sm-8">
-								 <div class="row" data-ng-init="abc = formData.options" data-ng-repeat="option in formData.options"
-									 data-ng-disabled="{{!formData.editable}}"
-							 		 data-ng-required="{{formData.required}}"> 
-							 		 <label class="col-sm-4">{{option}} : </label>
-										<span data-ng-if="formData.hasOwnProperty('autoselect')" data-ng-repeat="autoselect in formData.autoselect">
-            								<span  data-ng-if="(formData.options).indexOf('autoselect') !== -1">
-              									<input type="checkbox" data-ng-value="option" name="checkOption" checked>
-              								</span>
-            								<span data-ng-if="(formData.options).indexOf('autoselect') === -1">
-            										<input name="checkOption" type="checkbox" data-ng-value="option">
-              								</span>
-            							</span>
-            							<span data-ng-if="!formData.hasOwnProperty('autoselect')">
-            								<input type="checkbox" data-ng-value="option" name="checkOption">
-            							</span>
-								</div>
+							<div ng-repeat="select in formData.options" ng-required="tag.required">
+         							<input type="checkbox" ng-checked="formData.autoselect.indexOf(select) > -1" ng-disabled="!tag.editable" 
+                						ng-value="select" name="$index" ng-click="clicked(select,tag)"/>{{select}}
+          						</div>	 
 						</div>
 					</div>
 					
